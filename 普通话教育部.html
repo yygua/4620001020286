@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<!-- saved from url=(0143)https://zhengzhao.moe.gov.cn/ecms-qr/index.html?oid=1.2.156.3005.2.2BHJCA4OJ88LHCQ6WLSWC7MRCMMNDKRI3NHWQDU6IT6VV1IV6NWWF833M3MINRPB9RYPJJE2QA.5 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+		<title></title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="./普通话教育部_files/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="./普通话教育部_files/font-awesome.css">
+
+		<style>
+			.mui-table h4,.mui-table-view h5,.mui-table .mui-h5,.mui-table .mui-h6,.mui-table p{
+			margin-top: 0;
+		}
+		.mui-table-view i{
+			margin-bottom: 5px;
+		}
+		.mui-table h4{
+			line-height: 21px;
+			font-weight: 500;
+		}
+		.mui-table .oa-icon{
+			position: absolute;
+			right:0;
+			bottom: 0;
+		}
+		.mui-table .oa-icon-star-filled{
+			color:#f14e41;
+		}
+		.green{
+			color:#0060AA;
+		}
+		.mui-table-view-cell{
+			width:100%
+		}
+	</style>
+	</head>
+
+	<body>
+		<div class="mui-card" style="margin:0px">
+			<!--页眉-->
+			<div>
+				<img src="./普通话教育部_files/card2.png" class="layui-circle" style="width: 100%">
+			</div>
+			<!--内容区-->
+			<div class="mui-card-content">
+				<ul class="mui-table-view" id="licenceInfo"><li class="mui-table-view-cell"><div style="font-size:20px;" align="center"> 普通话水平测试等级证书</div></li><li class="mui-table-view-cell"><h5 class="green"><i class="fa fa-address-card-o"> 证照名称</i></h5><h5>普通话水平测试等级证书</h5></li><li class="mui-table-view-cell"><h5 class="green"><i class="fa fa-address-card-o">证照编号</i></h5><h5>4620001020286</h5></li><li class="mui-table-view-cell"><h5 class="green"><i class="fa fa-user-o"> 持证者</i></h5><h5>魏茜汐</h5></li><li class="mui-table-view-cell"><h5 class="green"><i class="fa fa-file-text-o"> 持证者类型</i></h5><h5>公民身份号码</h5></li><li class="mui-table-view-cell"><h5 class="green"><i class="fa fa-file-text-o"> 持证者代码</i></h5><h5>372923200011110527</h5></li><li class="mui-table-view-cell"><h5 class="green"><i class="fa fa-calendar-check-o"> 有效期开始</i></h5><h5>2021-01-25</h5></li><li class="mui-table-view-cell"><h5 class="green"><i class="fa fa-calendar-check-o"> 有效期截至</i></h5><h5></h5></li><li class="mui-table-view-cell"><h5 class="green"><i class="fa fa-file-text-o"> 颁发部门</i></h5><h5>教育部语言文字应用研究所</h5></li><li class="mui-table-view-cell"><h5 class="green"><i class="fa fa-calendar-check-o"> 颁发日期</i></h5><h5>2021-01-25</h5></li><li class="mui-table-view-cell"><h5 class="green"><i class="fa fa-check-square-o"> 证照状态</i></h5><h5>有效</h5></li></ul>
+			</div>
+		</div>	
+	
+	<script type="text/javascript" src="./普通话教育部_files/jquery.min.js.下载"></script> 
+	<script src="./普通话教育部_files/mui.min.js.下载"></script>
+	<script type="text/javascript">
+		
+		
+		$(document).ready(function(){
+			var certificateID = getQueryString('oid');			
+			$.ajax({
+				type: "POST",
+				contentType: "application/json",
+				url:"https://zhengzhao.moe.gov.cn/ecms-qr/qrCodeInfo?oid="+certificateID,
+				success: function(result) {
+					var data = JSON.parse(result);
+					var status = data.head.status;
+					var licence = document.getElementById("licenceInfo");
+					//错误结果
+					if(status=='404'){
+						licence.innerHTML ="<li class='mui-table-view-cell'><div style='font-size:20px;color:#FF0000' align='center'>服务异常</div></li>";
+						return;
+					}
+					//查无结果
+					if(status!='0'){
+						licence.innerHTML ="<li class='mui-table-view-cell'><div style='font-size:20px;color:#FF0000' align='center'>查找不到记录</div></li>";
+						return;
+					}
+					//渲染数据	
+					var certData=data.data;
+					var htmlText = "<li class='mui-table-view-cell'><div style='font-size:20px;' align='center'> "+certData.certificateTypeName+"</div></li>";
+						htmlText += "<li class='mui-table-view-cell'><h5 class='green'><i class='fa fa-address-card-o'> 证照名称</i></h5><h5>"+certData.contentName+"</h5></li>";
+						htmlText += "<li class='mui-table-view-cell'><h5 class='green'><i class='fa fa-address-card-o'>证照编号</i></h5><h5>"+certData.licenceNumber+"</h5></li>";
+						htmlText += "<li class='mui-table-view-cell'><h5 class='green'><i class='fa fa-user-o'> 持证者</i></h5><h5>"+replaceContent(certData.holderName)+"</h5></li>";
+						htmlText += "<li class='mui-table-view-cell'><h5 class='green'><i class='fa fa-file-text-o'> 持证者类型</i></h5><h5>"+replaceContent(certData.holderType)+"</h5></li>";
+						htmlText += "<li class='mui-table-view-cell'><h5 class='green'><i class='fa fa-file-text-o'> 持证者代码</i></h5><h5>"+replaceContent(certData.holderCode)+"</h5></li>";
+						htmlText += "<li class='mui-table-view-cell'><h5 class='green'><i class='fa fa-calendar-check-o'> 有效期开始</i></h5><h5>"+certData.licenceBeginTime+"</h5></li>";
+						htmlText += "<li class='mui-table-view-cell'><h5 class='green'><i class='fa fa-calendar-check-o'> 有效期截至</i></h5><h5>"+certData.licenceEndTime+"</h5></li>";
+						htmlText += "<li class='mui-table-view-cell'><h5 class='green'><i class='fa fa-file-text-o'> 颁发部门</i></h5><h5>"+certData.issueOrgName+"</h5></li>";
+						htmlText += "<li class='mui-table-view-cell'><h5 class='green'><i class='fa fa-calendar-check-o'> 颁发日期</i></h5><h5>"+certData.issueTime+"</h5></li>";
+						htmlText += "<li class='mui-table-view-cell'><h5 class='green'><i class='fa fa-check-square-o'> 证照状态</i></h5><h5>"+certData.licenceStatus+"</h5></li>";
+					licence.innerHTML =htmlText;
+				}
+			  
+				
+			});	
+		});
+
+		function replaceContent(type){
+			return type.replace('^', '<br/>'); 
+		}
+		
+	
+		
+		function getQueryString(name) {
+			var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+			var r = location.search.substr(1).match(reg);
+			if(r != null)return decodeURI(r[2]);
+			return null;
+		}
+	</script>
+
+</body></html>
